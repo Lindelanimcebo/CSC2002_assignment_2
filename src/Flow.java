@@ -41,6 +41,34 @@ public class Flow {
 	   	
 		JPanel b = new JPanel();
 	    b.setLayout(new BoxLayout(b, BoxLayout.LINE_AXIS));
+
+		// Reset Button
+		JButton resetB = new JButton("Reset");
+		// action listener to reset
+		resetB.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				// to do : reset simulation
+			}
+		});
+
+		// Pause Button
+		JButton pauseB = new JButton("Pause");
+		// action listener to reset
+		pauseB.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				// to do : Pause simulation
+			}
+		});
+
+		// Play Button
+		JButton playB = new JButton("Play");
+		// action listener to reset
+		playB.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				// to do : Play simulation
+			}
+		});
+
 		JButton endB = new JButton("End");;
 		// add the listener to the jbutton to handle the "pressed" event
 		endB.addActionListener(new ActionListener(){
@@ -50,6 +78,9 @@ public class Flow {
 			}
 		});
 		
+		b.add(resetB);
+		b.add(pauseB);
+		b.add(playB);
 		b.add(endB);
 		g.add(b);
     	
