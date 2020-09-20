@@ -10,15 +10,15 @@ public class Water{
 
     public Water(int dimx, int dimy){
         this.depths = new int[dimx][dimy];
-        for (int i = 0; i < dimx; i++){
-            for (int j = 0; j < dimy; j++){
-                this.depths[i][j] = 0;
-            }
-        }
+        // for (int i = 0; i < dimx; i++){
+        //     for (int j = 0; j < dimy; j++){
+        //         this.depths[i][j] = 0;
+        //     }
+        // }
         this.dimx = dimx;
         this.dimy = dimy;
     }
-    public boolean inside(int x, int y){
+    public synchronized boolean inside(int x, int y){
         return ( (x < dimx) && (y < dimy) && (x >= 0) && (y >= 0) );
     }
     public synchronized void clear(){
@@ -38,10 +38,11 @@ public class Water{
     }
 
     public synchronized void dec(int x, int y){
-        if (this.depths[x][y] >= 1){
-            this.depths[x][y]--;
-        } else {
-            this.depths[x][y] = 0;
-        }
+        this.depths[x][y]--;
+        // if (this.depths[x][y] > 1){
+        //     this.depths[x][y]--;
+        // } else {
+        //     this.depths[x][y] = 0;
+        // }
     }
 }

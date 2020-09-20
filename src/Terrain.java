@@ -35,7 +35,7 @@ public class Terrain {
 	}
 
 	boolean boundary(int x, int y){
-		return ( (x == 0 || y == 0) || (x == dimx - 1) || (y == dimy - 1) );
+		return ( (x == 0 ) || ( y == 0 ) || (x == dimx - 1) || (y == dimy - 1) );
 	}
 	
 	// get greyscale image

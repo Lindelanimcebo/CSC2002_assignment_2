@@ -48,7 +48,7 @@ public class FlowThread extends Thread{
         for (int i = x - 1; i <= x + 1; i++){
             for (int j = y - 1; j <= y + 1; j++){
                 if ( terrain.inside(i,j) ){
-                    float surface = ( water.getDepth(i,j)/100f ) + terrain.height[i][j];
+                    float surface = ( water.getDepth(i,j)*0.01f ) + terrain.height[i][j];
                     if (surface < minSurface){
                         minSurface = surface;
                         minX = i; minY = j;
@@ -60,6 +60,7 @@ public class FlowThread extends Thread{
         }
 
         water.dec(x,y);
+        
         if ( terrain.boundary(minX,minY) ){
             water.setDepth( minX, minY, 0 );
         } else {

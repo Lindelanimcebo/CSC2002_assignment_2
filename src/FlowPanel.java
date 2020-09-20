@@ -38,7 +38,7 @@ public class FlowPanel extends JPanel implements Runnable {
 		WaterRenderer.g = g;
 		WaterRenderer.terrain = land;
 		WaterRenderer.water = water;
-		
+
 		fjpool.invoke( new WaterRenderer( 0, land.dim() ) );
 	}
 
@@ -51,7 +51,7 @@ public class FlowPanel extends JPanel implements Runnable {
         for (int i = startX; i < stopX; i++){
             for (int j = startY; j < stopY; j++){
                 if (land.inside( i, j )){
-                    water.inc( i, j );
+                    water.setDepth( i, j, 1 );
                 }
                     
             }

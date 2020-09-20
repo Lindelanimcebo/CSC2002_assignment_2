@@ -6,7 +6,7 @@ import java.util.concurrent.RecursiveAction;
 
 public class WaterRenderer extends RecursiveAction{
 
-    static final int SEQUENTIAL_CUTOFF  = 50;
+    static final int SEQUENTIAL_CUTOFF  = 150;
     static Graphics g;
     static Terrain terrain;
     static Water water;
