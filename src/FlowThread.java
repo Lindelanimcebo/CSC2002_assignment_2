@@ -1,5 +1,8 @@
 package FlowSkeleton;
 
+/**
+* Thread class to control the flow of water off the terrain
+ */
 public class FlowThread extends Thread{
 
     static Terrain terrain;
@@ -8,13 +11,20 @@ public class FlowThread extends Thread{
     int startIndex;
     int stopIndex;
 
+    /**
+    * Constructor to initialize the thread
+    * @param startIndex index to start at
+    * @param stopIndex index to stop at
+     */
     public FlowThread( int startIndex, int stopIndex ){
             this.startIndex = startIndex;
             this.stopIndex = stopIndex;
             
     }
 
-    @Override
+    /**
+    * Thread overriden run function to run the current thread
+     */
     public void run(){
 
         int [] positions = new int[2];
@@ -26,6 +36,12 @@ public class FlowThread extends Thread{
 
     }
 
+    /**
+    * Helper function to manage all the flow of water from the current position
+    * to the neighbour with the minimum surface
+    * @param x x index
+    * @param y y index
+     */
     synchronized void waterFlow(int x, int y){
 
 

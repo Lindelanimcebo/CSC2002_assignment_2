@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+* Terrain class to represent the terrain as an object
+ */
 public class Terrain {
 
 	float [][] height; // regular grid of height values
@@ -30,10 +33,22 @@ public class Terrain {
 		return dimy;
 	}
 
+	/**
+	* Determine if a certain (x,y) coordinate is inside the terrain.
+	* @param x x coordinate
+	* @param y y coordinate
+	* @return boolean indicating whether the coordinate is inside or not.
+	 */
 	boolean inside(int x, int y){
 		return ( (x < dimx) && (y < dimy) && (x >= 0) && (y >= 0) );
 	}
 
+	/**
+	* Determine if a certain (x,y) coordinate is at the boundary of the terrain.
+	* @param x x coordinate
+	* @param y y coordinate
+	* @return boolean indicating whether the coordinate is at the boundary or not.
+	 */
 	boolean boundary(int x, int y){
 		return ( (x == 0 ) || ( y == 0 ) || (x == dimx - 1) || (y == dimy - 1) );
 	}

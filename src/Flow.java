@@ -9,6 +9,9 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 
+/**
+*  Flow class for initializing the simulation and acts as a view to the user 
+ */
 public class Flow {
 
 	static long startTime = 0;
@@ -17,17 +20,28 @@ public class Flow {
 	static int frameY;
 	static FlowPanel fp;
 
-	// start timer
+	/**
+	* Function to start timer in case timing is required.
+	 */
 	private static void tick(){
 		startTime = System.currentTimeMillis();
 	}
 	
-	// stop timer, return time elapsed in seconds
+	/**
+	* Function to stop time and return duration
+	* @return Timer duration ( current time - start time )
+	 */
 	private static float tock(){
 		return (System.currentTimeMillis() - startTime) / 1000.0f; 
 	}
 	
-	 
+	/**
+	* Function for setting up GUI and initializing all data required
+	* @param frameX the x dimension of the GUI frame
+	* @param frameY the y dimension of the GUI frame
+	* @param landdata the terrain data to be used
+	* @param water the water data to be used
+	 */
 	public static void setupGUI(int frameX,int frameY,Terrain landdata, Water water) {
 		
 		Dimension fsize = new Dimension(800, 800);
@@ -108,7 +122,10 @@ public class Flow {
         fpt.start();
 	}
 	
-		
+	/**
+	* Main runner function to run the controller class
+	* @param args input comands from the terminal
+	 */
 	public static void main(String[] args) {
 		Terrain landdata = new Terrain();
 		
@@ -126,7 +143,7 @@ public class Flow {
 		frameY = landdata.getDimY();
 
 		Water water = new Water( frameX, frameY );
-		
+
 		SwingUtilities.invokeLater(()->setupGUI(frameX, frameY, landdata, water ));
 		
 	}

@@ -6,6 +6,9 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
+/**
+* Controller class for the simulation to handle all user comands and modify the view.
+ */
 public class FlowPanel extends JPanel implements Runnable {
 
 	Terrain land;
@@ -27,7 +30,10 @@ public class FlowPanel extends JPanel implements Runnable {
 		
 	// responsible for painting the terrain and water
 	// as images
-	@Override
+    /**
+    * Function responsible for painting and repainting of the terrain panel
+    * @param g terrain JPanel
+     */
     protected void paintComponent(Graphics g) {
 		int width = getWidth();
 		int height = getHeight();
@@ -50,7 +56,11 @@ public class FlowPanel extends JPanel implements Runnable {
         }
 	}
 
-	// Add Water
+	/**
+    * Function for adding water to the terrain when there is a mouse press
+    * @param x mouse x position
+    * @param y mouse y position
+     */
 	public void addWater(int x, int y){
         int depth = 5;
         int startX = x - depth; int stopX = x + depth;
@@ -67,20 +77,32 @@ public class FlowPanel extends JPanel implements Runnable {
 		repaint();
     }
 
+    /**
+    * Function to pause the simulation.
+     */
 	public void pause(){
         play.set(false);
         pause = true;
     }
 
+    /**
+    * Function to play or resume the simulation
+    */
     public void play(){
         this.pause = false;
         this.play.set(true);
     } 
 
+    /**
+    * function to exit the simulation.
+    */
     public void exit(){
         exit = true;
     }
 
+    /**
+    * Resets simulation data and restarts the simulation.
+    */
     public void reset(){
         play.set(false);
         water.clear();
@@ -89,7 +111,9 @@ public class FlowPanel extends JPanel implements Runnable {
     }
 	
 
-
+    /**
+    * Runner function to continously run the simulation until exit.
+    */
 	public void run() {	
 
 		int dim = land.dim();

@@ -24,8 +24,7 @@ clean:
 	rm $(BINDIR)/*.class
 
 docs:
-	rm $(DOCSDIR)/*
-	javadoc -d $(DOCSDIR)/ $(SRCDIR)/*.java $<
+	javadoc -d docs/ src/*.java
 
 runM: 
 	java -cp bin FlowSkeleton/Flow "./data/medsample_in.txt"
