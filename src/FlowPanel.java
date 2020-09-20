@@ -1,14 +1,13 @@
 package FlowSkeleton;
 
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import java.awt.Graphics;
 import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import java.util.concurrent.ForkJoinPool;
 
 public class FlowPanel extends JPanel implements Runnable {
+
 	Terrain land;
 	Water water;
 
@@ -17,14 +16,9 @@ public class FlowPanel extends JPanel implements Runnable {
     boolean pause;
     boolean exit;
 
-
     // Timer
     static long count = 0;
-    // static long startCount = 0;
-	// static long pauseTime = 0;
     static JLabel timestep;
-
-	//static final ForkJoinPool fjpool = new ForkJoinPool();
 	
 	FlowPanel(Terrain land, Water water) {
 		this.land=land;
@@ -54,14 +48,6 @@ public class FlowPanel extends JPanel implements Runnable {
                     g.fillRect( positions[0], positions[1], 1, 1 );
                 }
         }
-
-
-		// Water Renderer
-		// WaterRenderer.g = g;
-		// WaterRenderer.terrain = this.land;
-		// WaterRenderer.water = this.water;
-
-		// fjpool.invoke( new WaterRenderer( 0, land.dim() ) );
 	}
 
 	// Add Water
@@ -123,25 +109,9 @@ public class FlowPanel extends JPanel implements Runnable {
 
                 if (play.get()){
 
-                    // /repaint();
 					FlowThread.terrain = land;
                     FlowThread.water = water;
-                    // FlowThread [] threads = new FlowThread[num_threads];
-
-                    // for (int i = 0; i < num_threads; i++){
-                    //     // threads[i] = new FlowThread(terrain, water, (dim/num_threads)*i , dim / (num_threads-i) );
-                    //     threads[i] = new FlowThread( (dim/num_threads)*i , dim / (num_threads-i) );
-                    // }
-
-                    // for (int i = 0; i < num_threads; i++){
-                    //     threads[i].start();
-                    // }
-                    
-                    // for (int i = 0; i < num_threads; i++){
-                    //     threads[i].join();
-                    // }
-					//repaint();
-
+                    repaint();
                     FlowThread thread1 = new FlowThread(0, dim/num_threads);
                     FlowThread thread2 = new FlowThread(dim/num_threads, (dim/num_threads)*2);
                     FlowThread thread3 = new FlowThread((dim/num_threads)*2, (dim/num_threads)*3);
@@ -151,10 +121,13 @@ public class FlowPanel extends JPanel implements Runnable {
                     thread2.start();
                     thread3.start();
                     thread4.start();
-
+                    repaint();
                     thread1.join();
+                    repaint();
                     thread2.join();
+                    repaint();
                     thread3.join();
+                    repaint();
                     thread4.join();
 
                     timestep.setText(String.format("Simulation timesteps : %d ", count++ ));
@@ -163,6 +136,7 @@ public class FlowPanel extends JPanel implements Runnable {
 
                 }
             }
+            System.out.println( water.conserved() ? "Water Conserved" : "Water not conserved" );
         } catch (Exception e){
             System.err.println(e);
         }

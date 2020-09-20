@@ -10,12 +10,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 
 public class Flow {
+
 	static long startTime = 0;
 	static long pauseTime = 0;
 	static int frameX;
 	static int frameY;
 	static FlowPanel fp;
-	// static Jlabel timestep;
 
 	// start timer
 	private static void tick(){
@@ -62,7 +62,6 @@ public class Flow {
 
 		// Reset Button
 		JButton resetB = new JButton("Reset");
-		// action listener to reset
 		resetB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				fp.reset();
@@ -71,7 +70,6 @@ public class Flow {
 
 		// Pause Button
 		JButton pauseB = new JButton("Pause");
-		// action listener to reset
 		pauseB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				fp.pause();
@@ -80,7 +78,6 @@ public class Flow {
 
 		// Play Button
 		JButton playB = new JButton("Play");
-		// action listener to reset
 		playB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				fp.play();
@@ -88,7 +85,6 @@ public class Flow {
 		});
 
 		JButton endB = new JButton("End");;
-		// add the listener to the jbutton to handle the "pressed" event
 		endB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				fp.exit();
@@ -124,18 +120,13 @@ public class Flow {
 		}
 				
 		// landscape information from file supplied as argument
-		// 
 		landdata.readData(args[0]);
 		
 		frameX = landdata.getDimX();
 		frameY = landdata.getDimY();
 
 		Water water = new Water( frameX, frameY );
-
-		// Controller
-		// Controller.terrain = landdata;
-		// Controller.water = water;
-
+		
 		SwingUtilities.invokeLater(()->setupGUI(frameX, frameY, landdata, water ));
 		
 	}

@@ -5,18 +5,8 @@ public class FlowThread extends Thread{
     static Terrain terrain;
     static Water water;
 
-    // private Terrain terrain;
-    // private Water water;
-
     int startIndex;
     int stopIndex;
-
-    // public FlowThread(Terrain terrain, Water water, int startIndex, int stopIndex){
-    //     this.terrain = terrain;
-    //     this.water = water;
-    //     this.startIndex = startIndex;
-    //     this.stopIndex = stopIndex;
-    // }
 
     public FlowThread( int startIndex, int stopIndex ){
             this.startIndex = startIndex;
@@ -38,7 +28,7 @@ public class FlowThread extends Thread{
 
     synchronized void waterFlow(int x, int y){
 
-        
+
         if ( water.getDepth(x,y) > 0 ){
             
             float minSurface = ( water.getDepth(x,y)*0.01f ) + terrain.height[x][y];
@@ -65,8 +55,5 @@ public class FlowThread extends Thread{
                 water.inc( minX, minY );
             }
         }
-
     }
-
-
 }

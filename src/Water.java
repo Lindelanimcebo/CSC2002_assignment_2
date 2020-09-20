@@ -2,11 +2,12 @@ package FlowSkeleton;
 
 public class Water{
 
-    private volatile int [][] depths;
+    private int [][] depths;
     private int dimx;
     private int dimy;
-    // private float depth_float;
-    // private static final float depth_unit = 0.01f;
+
+    private long totalWater;
+    private long waterRemoved;
 
     public Water(int dimx, int dimy){
         this.depths = new int[dimx][dimy];
@@ -29,24 +30,36 @@ public class Water{
         depths = new int[dimx][dimy];
     }
 
+    public synchronized boolean conserved(){
+        long waterLeft = 0;
+        for (int i = 0; i < dimx; i++){
+            for (int j = 0; j < dimy; j++){
+                waterLeft += depths[i][j];
+            }
+        }
+        return ( (totalWater - (waterRemoved + waterLeft)) == 0 );
+    }
+
     public synchronized int getDepth(int x, int y){
         return this.depths[x][y];
     }
 
     public synchronized void setDepth(int x, int y, int depth){
+        if ( depth == 0 ){
+            this.waterRemoved += this.depths[x][y];
+        } else {
+            totalWater += depth;
+        }
         this.depths[x][y] = depth;
     }
 
     public synchronized void inc(int x, int y){
         this.depths[x][y]++;
+        totalWater++;
     }
 
     public synchronized void dec(int x, int y){
         this.depths[x][y]--;
-        // if (this.depths[x][y] > 1){
-        //     this.depths[x][y]--;
-        // } else {
-        //     this.depths[x][y] = 0;
-        // }
+        totalWater--;
     }
 }

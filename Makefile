@@ -11,7 +11,6 @@ $(BINDIR)/%.class:$(SRCDIR)/%.java
 	
 CLASSES=Water.class \
 		Terrain.class \
-		WaterRenderer.class \
 		FlowThread.class \
 		FlowPanel.class \
 		Flow.class
@@ -28,5 +27,8 @@ docs:
 	rm $(DOCSDIR)/*
 	javadoc -d $(DOCSDIR)/ $(SRCDIR)/*.java $<
 
-run: 
+runM: 
 	java -cp bin FlowSkeleton/Flow "./data/medsample_in.txt"
+
+runL:
+	java -cp bin FlowSkeleton/Flow "./data/largesample_in.txt"
