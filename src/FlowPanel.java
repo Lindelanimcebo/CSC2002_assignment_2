@@ -1,6 +1,7 @@
 package FlowSkeleton;
 
 import java.awt.Graphics;
+import java.awt.Color;
 import javax.swing.JPanel;
 import java.util.concurrent.ForkJoinPool;
 
@@ -34,12 +35,23 @@ public class FlowPanel extends JPanel implements Runnable {
 			g.drawImage(land.getImage(), 0, 0, null);
 		}
 
-		// Water Renderer
-		WaterRenderer.g = g;
-		WaterRenderer.terrain = land;
-		WaterRenderer.water = water;
+        // Paint water;
+        g.setColor(Color.BLUE);
+        int [] positions = new int[2];
+        for ( int i = 0; i < land.dim(); i++){
+            land.getPermute(i, positions);
+            if ( water.getDepth( positions[0], positions[1] ) > 0 ){
+                    g.fillRect( positions[0], positions[1], 1, 1 );
+                }
+        }
 
-		fjpool.invoke( new WaterRenderer( 0, land.dim() ) );
+
+		// Water Renderer
+		// WaterRenderer.g = g;
+		// WaterRenderer.terrain = this.land;
+		// WaterRenderer.water = this.water;
+
+		// fjpool.invoke( new WaterRenderer( 0, land.dim() ) );
 	}
 
 	// Add Water
@@ -86,6 +98,8 @@ public class FlowPanel extends JPanel implements Runnable {
         FlowThread.terrain = land;
         FlowThread.water = water;
 
+        System.out.println("0");
+
 		repaint();
 
         try {
@@ -94,22 +108,43 @@ public class FlowPanel extends JPanel implements Runnable {
 				repaint();
 
                 if (play){
-					
-                    FlowThread [] threads = new FlowThread[num_threads];
 
-                    for (int i = 0; i < num_threads; i++){
-                        // threads[i] = new FlowThread(terrain, water, (dim/num_threads)*i , dim / (num_threads-i) );
-                        threads[i] = new FlowThread( (dim/num_threads)*i , dim / (num_threads-i) );
-                    }
+                    // /repaint();
+					FlowThread.terrain = land;
+                    FlowThread.water = water;
+                    // FlowThread [] threads = new FlowThread[num_threads];
 
-                    for (int i = 0; i < num_threads; i++){
-                        threads[i].start();
-                    }
+                    // for (int i = 0; i < num_threads; i++){
+                    //     // threads[i] = new FlowThread(terrain, water, (dim/num_threads)*i , dim / (num_threads-i) );
+                    //     threads[i] = new FlowThread( (dim/num_threads)*i , dim / (num_threads-i) );
+                    // }
+
+                    // for (int i = 0; i < num_threads; i++){
+                    //     threads[i].start();
+                    // }
                     
-                    for (int i = 0; i < num_threads; i++){
-                        threads[i].join();
-                    }
-					repaint();
+                    // for (int i = 0; i < num_threads; i++){
+                    //     threads[i].join();
+                    // }
+					//repaint();
+
+                    FlowThread thread1 = new FlowThread(0, dim/num_threads);
+                    FlowThread thread2 = new FlowThread(dim/num_threads, (dim/num_threads)*2);
+                    FlowThread thread3 = new FlowThread((dim/num_threads)*2, (dim/num_threads)*3);
+                    FlowThread thread4 = new FlowThread((dim/num_threads)*3, dim);
+
+                    thread1.start();
+                    thread2.start();
+                    thread3.start();
+                    thread4.start();
+
+                    thread1.join();
+                    thread2.join();
+                    thread3.join();
+                    thread4.join();
+
+                    repaint();
+                
                 }
             }
         } catch (Exception e){

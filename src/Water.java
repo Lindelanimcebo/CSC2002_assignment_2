@@ -2,7 +2,7 @@ package FlowSkeleton;
 
 public class Water{
 
-    private int [][] depths;
+    private volatile int [][] depths;
     private int dimx;
     private int dimy;
     // private float depth_float;
@@ -10,17 +10,21 @@ public class Water{
 
     public Water(int dimx, int dimy){
         this.depths = new int[dimx][dimy];
-        // for (int i = 0; i < dimx; i++){
-        //     for (int j = 0; j < dimy; j++){
-        //         this.depths[i][j] = 0;
-        //     }
-        // }
+        for (int i = 0; i < dimx; i++){
+            for (int j = 0; j < dimy; j++){
+                this.depths[i][j] = 0;
+            }
+        }
         this.dimx = dimx;
         this.dimy = dimy;
     }
     public synchronized boolean inside(int x, int y){
         return ( (x < dimx) && (y < dimy) && (x >= 0) && (y >= 0) );
     }
+    public boolean boundary(int x, int y){
+		return ( (x == 0 ) || ( y == 0 ) || (x == dimx - 1) || (y == dimy - 1) );
+	}
+
     public synchronized void clear(){
         depths = new int[dimx][dimy];
     }

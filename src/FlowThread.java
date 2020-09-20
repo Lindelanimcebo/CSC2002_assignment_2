@@ -36,35 +36,34 @@ public class FlowThread extends Thread{
 
     }
 
-    void waterFlow(int x, int y){
+    synchronized void waterFlow(int x, int y){
 
-        if ( water.getDepth(x,y) <= 0 ){
-            return;
-        }
+        
+        if ( water.getDepth(x,y) > 0 ){
+            
+            float minSurface = ( water.getDepth(x,y)*0.01f ) + terrain.height[x][y];
+            int minX = x; int minY = y;
 
-        float minSurface = ( water.getDepth(x,y)*0.01f ) + terrain.height[x][y];
-        int minX = x; int minY = y;
+            for (int i = x - 1; i <= x + 1; i++){
+                for (int j = y - 1; j <= y + 1; j++){
+                    if ( terrain.inside(i,j) ){
+                        float surface = ( water.getDepth(i,j)*0.01f ) + terrain.height[i][j];
+                        if (surface <= minSurface){
+                            minSurface = surface;
+                            minX = i; minY = j;
+                            
+                        }
 
-        for (int i = x - 1; i <= x + 1; i++){
-            for (int j = y - 1; j <= y + 1; j++){
-                if ( terrain.inside(i,j) ){
-                    float surface = ( water.getDepth(i,j)*0.01f ) + terrain.height[i][j];
-                    if (surface < minSurface){
-                        minSurface = surface;
-                        minX = i; minY = j;
-                        
                     }
-
                 }
             }
-        }
-
-        water.dec(x,y);
-        
-        if ( terrain.boundary(minX,minY) ){
-            water.setDepth( minX, minY, 0 );
-        } else {
-            water.inc( minX, minY );
+            
+            if ( water.boundary(minX,minY) ){
+                water.setDepth( minX, minY, 0 );
+            } else if (x != minX || y != minY){
+                water.dec(x,y);
+                water.inc( minX, minY );
+            }
         }
 
     }
