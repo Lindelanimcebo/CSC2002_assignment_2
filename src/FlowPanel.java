@@ -1,8 +1,11 @@
 package FlowSkeleton;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import java.awt.Graphics;
 import java.awt.Color;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
 import java.util.concurrent.ForkJoinPool;
 
 public class FlowPanel extends JPanel implements Runnable {
@@ -10,11 +13,18 @@ public class FlowPanel extends JPanel implements Runnable {
 	Water water;
 
 	// Flags
-    boolean play;
+    AtomicBoolean play = new AtomicBoolean();
     boolean pause;
     boolean exit;
 
-	static final ForkJoinPool fjpool = new ForkJoinPool();
+
+    // Timer
+    static long count = 0;
+    // static long startCount = 0;
+	// static long pauseTime = 0;
+    static JLabel timestep;
+
+	//static final ForkJoinPool fjpool = new ForkJoinPool();
 	
 	FlowPanel(Terrain land, Water water) {
 		this.land=land;
@@ -72,12 +82,13 @@ public class FlowPanel extends JPanel implements Runnable {
     }
 
 	public void pause(){
-        play = false;
+        play.set(false);
         pause = true;
     }
 
     public void play(){
-        this.play = true;
+        this.pause = false;
+        this.play.set(true);
     } 
 
     public void exit(){
@@ -85,7 +96,10 @@ public class FlowPanel extends JPanel implements Runnable {
     }
 
     public void reset(){
+        play.set(false);
         water.clear();
+        count = 0;
+        timestep.setText(String.format("Simulation timesteps : %d ", count ));
     }
 	
 
@@ -107,7 +121,7 @@ public class FlowPanel extends JPanel implements Runnable {
 
 				repaint();
 
-                if (play){
+                if (play.get()){
 
                     // /repaint();
 					FlowThread.terrain = land;
@@ -143,8 +157,10 @@ public class FlowPanel extends JPanel implements Runnable {
                     thread3.join();
                     thread4.join();
 
+                    timestep.setText(String.format("Simulation timesteps : %d ", count++ ));
                     repaint();
-                
+
+
                 }
             }
         } catch (Exception e){

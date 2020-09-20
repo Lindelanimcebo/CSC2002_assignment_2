@@ -11,9 +11,11 @@ import java.awt.event.MouseAdapter;
 
 public class Flow {
 	static long startTime = 0;
+	static long pauseTime = 0;
 	static int frameX;
 	static int frameY;
 	static FlowPanel fp;
+	// static Jlabel timestep;
 
 	// start timer
 	private static void tick(){
@@ -25,6 +27,7 @@ public class Flow {
 		return (System.currentTimeMillis() - startTime) / 1000.0f; 
 	}
 	
+	 
 	public static void setupGUI(int frameX,int frameY,Terrain landdata, Water water) {
 		
 		Dimension fsize = new Dimension(800, 800);
@@ -42,7 +45,8 @@ public class Flow {
 		g.add(fp);
 	    
 		// timestamp label
-		JLabel timer = new JLabel("Simulation Steps : ");
+		JLabel timer = new JLabel(String.format("Simulation timesteps : %d ", 0 ));
+		FlowPanel.timestep = timer;
 
 		// MouseListener 
 		g.addMouseListener( new MouseAdapter(){
@@ -92,6 +96,7 @@ public class Flow {
 			}
 		});
 		
+		b.add(timer);
 		b.add(resetB);
 		b.add(pauseB);
 		b.add(playB);
