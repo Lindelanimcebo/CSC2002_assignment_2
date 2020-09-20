@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 public class Flow {
 	static long startTime = 0;
@@ -23,7 +25,7 @@ public class Flow {
 		return (System.currentTimeMillis() - startTime) / 1000.0f; 
 	}
 	
-	public static void setupGUI(int frameX,int frameY,Terrain landdata) {
+	public static void setupGUI(int frameX,int frameY,Terrain landdata, Water water) {
 		
 		Dimension fsize = new Dimension(800, 800);
     	JFrame frame = new JFrame("Waterflow"); 
@@ -32,12 +34,24 @@ public class Flow {
     	
       	JPanel g = new JPanel();
         g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS)); 
+
+		landdata.genPermute(); // Generate Land dat permutation 
    
-		fp = new FlowPanel(landdata);
+		fp = new FlowPanel(landdata, water );
 		fp.setPreferredSize(new Dimension(frameX,frameY));
 		g.add(fp);
 	    
-		// to do: add a MouseListener, buttons and ActionListeners on those buttons
+		// timestamp label
+		JLabel timer = new JLabel("Simulation Steps : ");
+
+		// MouseListener 
+		g.addMouseListener( new MouseAdapter(){
+			@Override
+			public void mousePressed(MouseEvent e){
+				fp.addWater(e.getX(), e.getY());
+			}
+		});
+		
 	   	
 		JPanel b = new JPanel();
 	    b.setLayout(new BoxLayout(b, BoxLayout.LINE_AXIS));
@@ -47,7 +61,7 @@ public class Flow {
 		// action listener to reset
 		resetB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				// to do : reset simulation
+				fp.reset();
 			}
 		});
 
@@ -56,7 +70,7 @@ public class Flow {
 		// action listener to reset
 		pauseB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				// to do : Pause simulation
+				fp.pause();
 			}
 		});
 
@@ -65,7 +79,7 @@ public class Flow {
 		// action listener to reset
 		playB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				// to do : Play simulation
+				fp.play();
 			}
 		});
 
@@ -73,7 +87,7 @@ public class Flow {
 		// add the listener to the jbutton to handle the "pressed" event
 		endB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				// to do ask threads to stop
+				fp.exit();
 				frame.dispose();
 			}
 		});
@@ -110,8 +124,14 @@ public class Flow {
 		
 		frameX = landdata.getDimX();
 		frameY = landdata.getDimY();
-		SwingUtilities.invokeLater(()->setupGUI(frameX, frameY, landdata));
+
+		Water water = new Water( frameX, frameY );
+
+		// Controller
+		// Controller.terrain = landdata;
+		// Controller.water = water;
+
+		SwingUtilities.invokeLater(()->setupGUI(frameX, frameY, landdata, water ));
 		
-		// to do: initialise and start simulation
 	}
 }

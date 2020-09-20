@@ -9,7 +9,10 @@ FILEIN="./data/med_in.txt"
 $(BINDIR)/%.class:$(SRCDIR)/%.java
 	javac -d $(BINDIR)/ -cp $(BINDIR) $<
 	
-CLASSES=Terrain.class \
+CLASSES=Water.class \
+		Terrain.class \
+		WaterRenderer.class \
+		FlowThread.class \
 		FlowPanel.class \
 		Flow.class
 									

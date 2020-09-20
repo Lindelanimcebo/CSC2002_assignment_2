@@ -29,6 +29,14 @@ public class Terrain {
 	int getDimY(){
 		return dimy;
 	}
+
+	boolean inside(int x, int y){
+		return ( (x < dimx) && (y < dimy) && (x >= 0) && (y >= 0) );
+	}
+
+	boolean boundary(int x, int y){
+		return ( (x == 0 || y == 0) || (x == dimx - 1) || (y == dimy - 1) );
+	}
 	
 	// get greyscale image
 	public BufferedImage getImage() {
