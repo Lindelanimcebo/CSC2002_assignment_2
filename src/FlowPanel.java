@@ -1,5 +1,6 @@
 package FlowSkeleton;
 
+// import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.awt.Graphics;
 import java.awt.Color;
@@ -23,6 +24,8 @@ public class FlowPanel extends JPanel implements Runnable {
     static long count = 0;
     static JLabel timestep;
 	
+    // static final ForkJoinPool fjp = new ForkJoinPool();
+
 	FlowPanel(Terrain land, Water water) {
 		this.land=land;
 		this.water=water;
@@ -44,6 +47,12 @@ public class FlowPanel extends JPanel implements Runnable {
 		if (land.getImage() != null){
 			g.drawImage(land.getImage(), 0, 0, null);
 		}
+
+        // // paint water parallel
+        // WaterRenderer.g = g;
+        // WaterRenderer.terrain = land;
+        // WaterRenderer.water = water;
+        // fjp.invoke( new WaterRenderer( 0, land.dim() ) );
 
         // Paint water;
         g.setColor(Color.BLUE);
